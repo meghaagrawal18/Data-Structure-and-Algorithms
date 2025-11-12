@@ -1,0 +1,41 @@
+//THIS IS THE BRUTE FORCE OLUTION TO ROTATE A MATRIX BY 90 DEGREES CLOCKWISE
+class Solution {
+public:
+    vector<vector<int>> rotateMatrix(vector<vector<int>>& matrix) {
+        int rows = matrix.size();
+        int cols = matrix[0].size();
+
+        // create result matrix with swapped dimensions
+        vector<vector<int>> ans(cols, vector<int>(rows));
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                ans[j][rows - 1 - i] = matrix[i][j];
+            }
+        }
+
+        return ans;
+    }
+};
+
+//OPTIMAL APPROCAH
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n=matrix.size();
+        //we are first transposing the matrix
+        for(int i=0;i<n;i++)
+        {
+            for(int j=i+1;j<n;j++)
+            {
+               swap(matrix[i][j], matrix[j][i]);
+            }
+        }
+        //reversing each row of the matrix
+        for(int i=0;i<n;i++)
+        {
+            reverse(matrix[i].begin(),matrix[i].end());
+        }
+        
+    }
+};

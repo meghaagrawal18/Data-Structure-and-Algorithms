@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int longestSubarray(vector<int> &nums, int k) {
+        unordered_map<long long, int> preSum; // prefix sum -> index
+        long long sum = 0;
+        int maxlen = 0;
+
+        for (int i = 0; i < nums.size(); i++) {
+            sum += nums[i];
+
+            // Case 1: subarray from 0...i has sum = k
+            if (sum == k) {
+                maxlen = max(maxlen, i + 1);
+            }
+
+            // Case 2: check if there exists a prefix sum = sum - k
+            long long rem = sum - k;
+            if (preSum.find(rem) != preSum.end()) {
+                int len = i - preSum[rem];
+                maxlen = max(maxlen, len);
+            }
+
+            // Case 3: store first occurrence of this prefix sum
+            if (preSum.find(sum) == preSum.end()) {
+                preSum[sum] = i;
+            }
+        }
+        return maxlen;
+    }
+};

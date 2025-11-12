@@ -1,0 +1,106 @@
+//brute force approach
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        for(int i=0;i<nums.size();i++)
+        {
+            for(int j=0;j<nums.size();j++)
+            {
+                if(i==j)
+                {
+                    continue;
+                }
+                else if(nums[i]+nums[j]==target)
+                {
+                    return {i,j};
+                }
+            }
+        }
+        return {-1,-1};
+    }
+};
+
+
+//better using haspmap
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        map<int,int> mpp;
+        //looping inside the array
+        for(int i=0;i<nums.size();i++)
+        {
+            int first_element=nums[i];
+            int moreNeeded=target-first_element;
+            //checking if the elements are present in the map
+            if(mpp.find(moreNeeded)!=mpp.end())
+            {
+                return {mpp[moreNeeded],i};
+            }
+            mpp[first_element]=i;
+        }
+        return {-1,-1};
+        
+    }
+};
+
+//optimal --> using 2 pointer
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        nums.sort(nums.begin(),nums.end());
+        int left=0;
+        int right=nums.size()-1;
+        while(left<right)
+        {
+            int sum=nums[left]+nums[right];
+            if(sum==target)
+            {
+                return "YES";
+            }
+            else if(sum<target)
+            {
+                left++;
+            }
+            else if(sum>target)
+            {
+                right--;
+            }
+        }
+        return "NO";
+
+        
+    }
+};
+
+//optimal variation 2
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        // Step 1: store {value, index}
+        vector<pair<int,int>> arr;
+        for(int i = 0; i < nums.size(); i++) {
+            arr.push_back({nums[i], i});
+        }
+        
+        // Step 2: sort by value
+        sort(arr.begin(), arr.end());
+        
+        // Step 3: two pointer search
+        int left = 0, right = arr.size() - 1;
+        while(left < right) {
+            int sum = arr[left].first + arr[right].first;
+            if(sum == target) {
+                // return original indices
+                return {arr[left].second, arr[right].second};
+            } 
+            else if(sum < target) {
+                left++;
+            } 
+            else {
+                right--;
+            }
+        }
+        
+        return {-1, -1}; // no solution found
+    }
+};
